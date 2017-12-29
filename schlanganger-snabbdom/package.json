@@ -1,0 +1,9 @@
+{
+  "name": "schlanganger-snabbdom",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.6.2"
+  }
+}
