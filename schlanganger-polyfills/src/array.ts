@@ -47,7 +47,6 @@ if ((typeof((Array.prototype as any).from) === "undefined") || (!(Array.prototyp
   }());
 }
 
-//if ((typeof(Array.prototype.find) === "undefined") || (!Array.prototype.find)) {
 if ((typeof((Array.prototype as any).find) === "undefined") || (!(Array.prototype as any).find)) {
   Object.defineProperty(Array.prototype, 'find', {
     configurable: true,

@@ -30,3 +30,12 @@ interface RecyclePonyFill {
 }
 declare var Ponyfill: RecyclePonyFill;
 declare var Polyfill: RecyclePonyFill;
+declare module "invariant" {
+    export function invariant(condition: boolean, format: string, a?: any, b?: any, c?: any, d?: any, e?: any, f?: any): void;
+}
+declare module "value-equal" {
+    export function valueEqual(a: any | null, b: any | null): boolean;
+}
+declare module "warning" {
+    export function warning(condition: boolean, format: string, ...args: any[]): void;
+}

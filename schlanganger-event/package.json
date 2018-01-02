@@ -1,0 +1,15 @@
+{
+  "name": "schlanganger-event",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^22.0.0",
+    "jest": "^22.0.4",
+    "typescript": "^2.6.2"
+  },
+  "scripts": {
+    "test": "jest",
+    "buildNtest": "tsc -p tsconfig.commonjs.json && tsc -p tsconfig-test.json && jest"
+  }
+}

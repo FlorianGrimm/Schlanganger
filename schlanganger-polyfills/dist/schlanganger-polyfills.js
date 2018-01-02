@@ -1,4 +1,3 @@
-"use strict";
 (function () {
     var needsFix = false;
     //ES5 did not accept primitives, but ES6 does
@@ -381,7 +380,6 @@ if ((typeof (Array.prototype.from) === "undefined") || (!Array.prototype.from)) 
         };
     }());
 }
-//if ((typeof(Array.prototype.find) === "undefined") || (!Array.prototype.find)) {
 if ((typeof (Array.prototype.find) === "undefined") || (!Array.prototype.find)) {
     Object.defineProperty(Array.prototype, 'find', {
         configurable: true,
@@ -816,3 +814,100 @@ if ((typeof (Array.prototype.includes) === "undefined") || (!Array.prototype.inc
         };
     }
 })(window);
+define("invariant", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var __DEV__ = ((process !== undefined && process.env !== undefined && process.env.NODE_ENV) ? (process.env.NODE_ENV || '') : ('')) !== 'production';
+    function invariant(condition, format, a, b, c, d, e, f) {
+        if (__DEV__) {
+            if (format === undefined) {
+                throw new Error('invariant requires an error message argument');
+            }
+        }
+        if (!condition) {
+            var error;
+            if (format === undefined) {
+                error = new Error('Minified exception occurred; use the non-minified dev environment ' +
+                    'for the full error message and additional helpful warnings.');
+            }
+            else {
+                var args_1 = [a, b, c, d, e, f];
+                var argIndex = 0;
+                error = new Error(format.replace(/%s/g, function () { return args_1[argIndex++]; }));
+                error.name = 'Invariant Violation';
+            }
+            error.framesToPop = 1; // we don't care about invariant's own frame
+            throw error;
+        }
+    }
+    exports.invariant = invariant;
+    ;
+});
+define("value-equal", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    function valueEqual(a, b) {
+        if (a === b)
+            return true;
+        if (a == null || b == null)
+            return false;
+        if (Array.isArray(a)) {
+            return (Array.isArray(b)
+                && a.length === b.length
+                && a.every(function (item, index) {
+                    return valueEqual(item, b[index]);
+                }));
+        }
+        var aType = typeof a;
+        var bType = typeof b;
+        if (aType !== bType)
+            return false;
+        if (aType === 'object') {
+            var aValue = a.valueOf();
+            var bValue = b.valueOf();
+            if (aValue !== a || bValue !== b)
+                return valueEqual(aValue, bValue);
+            var aKeys = Object.keys(a);
+            var bKeys = Object.keys(b);
+            if (aKeys.length !== bKeys.length)
+                return false;
+            return aKeys.every(function (key) {
+                return valueEqual(a[key], b[key]);
+            });
+        }
+        return false;
+    }
+    exports.valueEqual = valueEqual;
+});
+define("warning", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var __DEV__ = ((process !== undefined && process.env !== undefined && process.env.NODE_ENV) ? (process.env.NODE_ENV || '') : ('')) !== 'production';
+    function warning(condition, format) {
+        var args = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            args[_i - 2] = arguments[_i];
+        }
+        if (__DEV__) {
+            if (format === undefined) {
+                throw new Error('invariant requires an error message argument');
+            }
+        }
+        if (!condition) {
+            var argIndex = 0;
+            var message = 'Warning: ' +
+                format.replace(/%s/g, function () { return args[argIndex++]; });
+            if (typeof console !== 'undefined') {
+                console.error(message);
+            }
+            try {
+                // This error was thrown as a convenience so that you can use this stack
+                // to find the callsite that caused this warning to fire.
+                throw new Error(message);
+            }
+            catch (x) { }
+        }
+    }
+    exports.warning = warning;
+    ;
+});
