@@ -1,0 +1,39 @@
+import * as cssauron from './index';
+
+
+//var test = require('tape')
+debugger;
+const languageCSS = cssauron.language({
+    id: 'id'
+  , class: 'class'
+  , tag: 'tag'
+  , attr: 'attr[attr]'
+  , parent: 'parent'
+  , children: 'children'
+  , contents: 'contents || ""'
+}, function(type, pattern, data) {
+  if (type == 'tag') {
+    return pattern.toLowerCase() == data.toLowerCase();
+  } else {
+    return pattern == data;
+  }
+})
+/*
+var data = {id: 'one-id', class: 'one-class', tag: 'one-tag', attr:{first: 'test', second:'gary busey', third:'richard-m-nixon'}, parent:null, children:[]};
+var act = languageCSS('#one-id')(data);
+*/
+
+var data = {id: 'one-id', class: 'one-class', tag: 'one-tag', attr:{first: 'test', second:'gary busey', third:'richard-m-nixon'}, parent:null, children:[]};
+var data2 = {id: 'two-id', class: 'two-class', tag: 'two-tag', attr:{first: 'test', second:'gary busey', third:'richard-m-nixon'}, parent:null, children:[],contents:'hello world'};
+var data3 = {id: 'three-id', class: 'three-class', tag: 'three-tag', attr:{first: 'test', second:'gary busey', third:'richard-m-nixon'}, parent:null, children:[]};
+var parent = {id: 'parent-id', class: 'parent-class', tag: 'parent-tag', attr:{first: 'test', second:'gary busey', third:'richard-m-nixon'}, parent:null, children:[data, data2, data3]};
+var root = {id: 'root-id', class: 'root-class', tag: 'root-tag', attr:{first: 'test', second:'gary busey', third:'richard-m-nixon'}, parent:null, children:[parent]};
+
+data.parent = parent
+data2.parent = parent
+data3.parent = parent
+data2.contents = 'hello world'
+parent.parent = root
+//
+var act = languageCSS('#parent-id > #one-id,\n#root-id > #parent-id > #one-id')(data);
+console.log(act);
